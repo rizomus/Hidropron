@@ -9,7 +9,6 @@ public class Main {
         var populSize = 1035;
         var winSize = 45;
         var nEpochs = 100;
-        var targetSize = Data.target.length;
         var botSize = Data.fertilizers.size();
         var popul = new double[populSize][botSize];
         var errors = new double[populSize];
