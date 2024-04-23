@@ -98,12 +98,12 @@ public class Data {
        fertilizers.add(new double[]{0.,12.8,0.,0.,0.,     0.,0.,0.,0.,0.,      0.,0.,0.,0.,0.,     0.,0.,0.,0.,(9.7083),            0.});
 
        targetSumML = Arrays.stream(target).sum();
-//       target[target.length - 1] = 1000 - targetSumML;      // балласт и вода
+       target[target.length - 1] = 1000 - targetSumML;      // балласт и вода
        arrNormalize(target);
        botSize = fertilizers.size();
 
        for(var f: fertilizers) {
-//           f[f.length - 1] = 100 - Arrays.stream(f).sum();          // балласт
+           f[f.length - 1] = 100 - Arrays.stream(f).sum();          // балласт
            arrNormalize(f);
        }
     }
@@ -141,15 +141,6 @@ public class Data {
         return arrNormalize(bot);                               // нормализация к 1
     }
 
-//    static double[] arrMultiply (double[] arr1, double[] arr2) {        // поэлементно премножает 2 массива (не используется)
-//        assert(arr1.length == arr2.length);
-//        double[] result = new double[arr1.length];
-//        for (int i = 0; i < arr1.length; i++) {
-//            result[i] = arr1[i] * arr2[i];
-//        }
-//        return result;
-//    }
-
     static double[] arrMultiply (double[] arr1, double k) {             // поэлементно домнажает элементы массива на коэффициент
         double[] result = new double[arr1.length];
         for (int i = 0; i < arr1.length; i++) {
@@ -166,18 +157,6 @@ public class Data {
         }
         return result;
     }
-
-//    static double MAPE (double[] target, double[] computed) {        // mean absolute percentage error = mean(abs((y_true - y_pred) / y_true))
-//        assert(target.length == computed.length);
-//
-//        double[] result = new double[target.length];
-//        double sum = 0;
-//        for (int i = 0; i < target.length; i++) {
-//            result[i] = Math.abs(target[i] - computed[i]) / target[i];
-//            sum += result[i];
-//        }
-//        return sum / target.length;
-//    }
 
     static double MSPE (double[] target, double[] computed) {        // mean square percentage error = mean((y_true - y_pred)^2 / y_true)
         assert(target.length == computed.length);
