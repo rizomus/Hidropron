@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.OptionalDouble;
 import java.util.Random;
-import java.util.stream.DoubleStream;
+import java.util.stream.Stream;
 
 
 public class Data {
@@ -16,7 +15,12 @@ public class Data {
    static HashMap<String, Double> target_elements = new HashMap<>();
    static List<double[]> fertilizers = new ArrayList<double[]>();
    static double[] target = new double[]{200.,0.,0.35,200.,0.06,     1.2,0.55,0.35,0.,0.,      0.,0.,0.,0.,0.06,    0.,0.,40.,310.,55.,         0.};
+
+   static double target0ML = target[0];
    static Random random = new Random();
+
+//   static int targetSize = target.length;
+   static int targetPositiveSize = 0;
 
     static {
         elements.put(0, "N");
@@ -74,42 +78,27 @@ public class Data {
         var targetSum = Arrays.stream(target).sum();
         for (int i = 0; i < target.length; i++) {
             target[i] /= targetSum;
+            if (target[i] > 0) targetPositiveSize++;
         }
     }
 
     static double getErr(double[] bot) throws IOException {
 
-        var solution = new double[]{0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.};
-        assert(solution.length == target.length);
-        int count = (int)Arrays.stream(target).filter(x -> x != 0).count();
-        double[] err = new double[count];
-        double errSum = 0.;
+        var solution = Stream.generate(()->0.).limit(target.length).mapToDouble(Double::doubleValue).toArray();
+        var relevantTarget = arrNotZero(target);
+        var relevantSolution = arrNotZero(solution, target);
 
-        for (double[] f: fertilizers) {
-
-            for (int i = 0; i < target.length; i++) {
-                solution[i] = solution[i] + bot[i] * f[i];
-            }
-
-            double sum = Arrays.stream(solution).sum();
-
-            var n = 0;                                      // количество не нулевых элементов в target
-            for (int i = 0; i < target.length; i++) {
-                if (target[i] != 0) {
-                    err[n] += Math.pow((target[i] - (solution[i] / sum)), 2);
-                    err[n] /= target[i];
-                    System.out.println("      err[" + n + "] = " + err[n] + "       " + solution[i] + "         " + sum);
-                    n++;
-                }
-            }
+        for (var f: fertilizers) {
+            solution = arrSum(solution, arrMultiply(bot, f));
         }
-        errSum = Arrays.stream(err).sum();
-        System.out.println("err: " + errSum / count);
-        System.in.read();
-        return errSum / count;
+        arrNormalize(solution);
+        relevantSolution = arrNotZero(solution, target);
+        return MSPE(relevantTarget, relevantSolution);
     }
 
     static double[] breeding(double[] bot1, double[] bot2) {
+
+        assert (bot1.length == bot2.length);
 
         var child = new double[bot1.length];
 
@@ -117,20 +106,129 @@ public class Data {
             if (random.nextBoolean()) child[i] = bot1[i];
             else child[i] = bot2[i];
         }
-        var childSum = Arrays.stream(child).sum();
-        for (int i = 0; i < child.length; i++) {
-            child[i] /= childSum;
-        }
-
-        return child;
+        return arrNormalize(child);
     }
 
     static double[] newRandomBot() {
-//        Random random = new Random();
-        var bot = random.doubles(target.length, 0, 1).toArray();
-        double sum = Arrays.stream(bot).sum();
-        DoubleStream newBot = Arrays.stream(bot).map(x -> x / sum);
-        return newBot.toArray();
+        Random random = new Random();
+        var bot = random.doubles(target.length).toArray();
+        return arrNormalize(bot);
+    }
+
+    static double[] arrMultiply (double[] arr1, double[] arr2) {
+        assert(arr1.length == arr2.length);
+        double[] result = new double[arr1.length];
+        for (int i = 0; i < arr1.length; i++) {
+            result[i] = arr1[i] * arr2[i];
+        }
+        return result;
+    }
+
+    static double[] arrSum (double[] arr1, double[] arr2) {
+        assert(arr1.length == arr2.length);
+        double[] result = new double[arr1.length];
+        for (int i = 0; i < arr1.length; i++) {
+            result[i] = arr1[i] + arr2[i];
+        }
+        return result;
+    }
+
+    static double MAPE (double[] target, double[] computed) {        // mean absolute percentage error = mean(abs((y_true - y_pred) / y_true))
+        assert(target.length == computed.length);
+
+        double[] result = new double[target.length];
+        double sum = 0;
+        for (int i = 0; i < target.length; i++) {
+            result[i] = Math.abs(target[i] - computed[i]) / target[i];
+            sum += result[i];
+        }
+        return sum / target.length;
+    }
+
+    static double MSPE (double[] target, double[] computed) {        // mean square percentage error = mean((y_true - y_pred)^2 / y_true)
+        assert(target.length == computed.length);
+
+        double[] result = new double[target.length];
+        double sum = 0;
+        for (int i = 0; i < target.length; i++) {
+            result[i] = Math.pow((target[i] - computed[i]), 2) / target[i];
+            sum += result[i];
+        }
+        return sum / target.length;
+    }
+
+    static double[] arrNormalize(double[] arr) {
+        var sum = Arrays.stream(arr).sum();
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = arr[i] / sum;
+        }
+        return arr;
+    }
+
+    static double[] arrNotZero(double[] arr) {
+        double[] positives = new double[arr.length];
+        int j = 0;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] > 0) {
+                positives[j] = arr[i];
+                j++;
+            }
+        }
+        return Arrays.copyOf(positives, j);
+    }
+
+    static double[] arrNotZero(double[] arrTarget, double[] arrTempl) {
+        assert(arrTarget.length == arrTempl.length);
+        double[] positives = new double[arrTarget.length];
+        int j = 0;
+        for (int i = 0; i < arrTarget.length; i++) {
+            if (arrTempl[i] > 0) {
+                positives[j] = arrTarget[i];
+                j++;
+            }
+        }
+        return Arrays.copyOf(positives, j);
+    }
+
+    static void printArr(double[] arr, String prefix) {
+        System.out.print(prefix + "[");
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i] + ", ");
+        }
+        System.out.println("]");
+    }
+
+
+    static void printResults(double[] errors, double[][] popul) {
+        System.out.println();
+
+        var k = target0ML / target[0];
+        var minErr = Arrays.stream(errors).min().getAsDouble();
+        double[] winner = new double[target.length];
+
+        for (int i = 0; i < popul.length; i++) {
+            if (errors[i] == minErr) {
+                winner = popul[i];
+            }
+        }
+        var solution = Stream.generate(()->0.).limit(target.length).mapToDouble(Double::doubleValue).toArray();
+
+        for (var f: fertilizers) {
+            solution = arrSum(solution, arrMultiply(winner, f));
+        }
+        arrNormalize(solution);
+
+        for (int i = 0; i < target.length; i++) {
+            if (target_elements.containsKey(elements.get(i))) {
+                System.out.println(elements.get(i) + ":           " + solution[i] * k + "              " +  target_elements.get(elements.get(i)));
+            }
+        }
+        System.out.println();
+        for (int i = 0; i < target.length; i++) {
+            if (!target_elements.containsKey(elements.get(i))) {
+                System.out.println(elements.get(i) + ":           " + solution[i] * k);
+            }
+        }
     }
 
 }

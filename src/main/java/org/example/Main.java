@@ -1,12 +1,7 @@
 package org.example;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-import java.util.stream.DoubleStream;
-import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -16,42 +11,50 @@ public class Main {
         var nEpochs = 100;
         var targetSize = Data.target.length;
         var popul = new double[populSize][targetSize];
+        var errors = new double[populSize];
+        var winners = new double[winSize][targetSize];
+        double[] result = new double[targetSize];
 
         for (int i = 0; i < populSize; i++) {
             popul[i] = Data.newRandomBot();
         }
 
         for (int ep = 0; ep < nEpochs; ep++) {
-            var errors = new double[populSize];
-            var winners = new double[winSize][targetSize];
+            errors = new double[populSize];
+            winners = new double[winSize][targetSize];
 
             for (int i = 0; i < populSize; i++) {
                 errors[i] = Data.getErr(popul[i]);
+//                System.out.println("err[i] = " + errors[i]);
             }
-            var thresold = Arrays.stream(errors).sorted().toArray()[winSize - 1];
+            var sortedErrors = Arrays.stream(errors).sorted().toArray();
+            var thresold = sortedErrors[winSize - 1];
+//            System.out.println("threshold = " + thresold);
 
             int j = 0;
             for (int i = 0; i < populSize; i++) {
-                if (errors[i] < thresold) {
+                if (errors[i] <= thresold) {
                     winners[j] = popul[i];
+//                    Data.printArr(winners[j], "   winner: ");
                     j++;
                 }
             }
+            assert(j == winSize);
 
-            var newPopul = new double[populSize][targetSize];
-            for (int i = 0; i < winSize; i++) {
-                newPopul[i] = winners[i];
-            }
+            var newPopul = Arrays.copyOf(winners, populSize);
 
+            j = winSize;
             for (int i = 0; i < winSize; i++) {
                 for (int k = i + 1; k < winSize; k++) {
-//                    System.out.printf("i = %d, k = %d, (%b)", i, k, i < winSize);
-//                    System.out.println();
-                    newPopul[winSize + i] = Data.breeding(winners[i], winners[k]);
+                    newPopul[j] = Data.breeding(winners[i], winners[k]);
+                    j++;
                 }
             }
             popul = newPopul;
-            System.out.println("Epoch " + ep + ": error = " + Arrays.stream(errors).min().getAsDouble());
+//            Data.printArr(popul[0], "   popul[0]: ");
+//            Data.printArr(popul[populSize - 1], "   popul[-1]: ");
+            System.out.println("Epoch " + ep + ": error = " + sortedErrors[0]);
         }
+        Data.printResults(errors, popul);
     }
 }
