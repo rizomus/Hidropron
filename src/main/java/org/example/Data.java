@@ -17,10 +17,9 @@ public class Data {
 
    static int botSize;
    static double targetSumML;
-   static double N1Percent;
 
     static List<String> fertNames = new ArrayList<>();
-   static double[] target = new double[]{200.,0.,0.35,200.,0.06,     1.2,0.55,0.35,0.,0.,      0.,0.,0.,0.,0.06,    0.,0.,40.,310.,55.,         0.,0.};
+   static double[] target = new double[]{200.,0.,0.35,200.,0.06,     1.2,0.55,0.35,0.,0.,      0.,0.,0.,0.,0.06,    0.,0.,40.,310.,55.,         0.};
 
    static double target0ML = target[0];
    static Random random = new Random();
@@ -61,50 +60,50 @@ public class Data {
         target_elements.put("Mo", 0.06);
 
        fertNames.add("Селитра кальциевая Буйск");
-       fertilizers.add(new double[]{14.9,0.,0.,(19.305),0.,     0.,0.,0.,0.,0.,      0.,0.,0.,0.,0.,     0.,0.,0.,0.,0.,       0.,0.});
+       fertilizers.add(new double[]{14.9,0.,0.,(19.305),0.,     0.,0.,0.,0.,0.,      0.,0.,0.,0.,0.,     0.,0.,0.,0.,0.,       0.});
        fertNames.add("Монокалий фосфат Буйск");
-       fertilizers.add(new double[]{0.,0.,0.,0.,0.,         0.,0.,0.,0.,0.,       0.,0.,0.,0.,0.,         0.,0.,(21.8),(27.389),0.,     0.,0.});
+       fertilizers.add(new double[]{0.,0.,0.,0.,0.,         0.,0.,0.,0.,0.,       0.,0.,0.,0.,0.,         0.,0.,(21.8),(27.389),0.,     0.});
        fertNames.add("Сульфат магния Буйск");
-       fertilizers.add(new double[]{0.,13.5,0.,0.,0.,      0.,0.,0.,0.,0.,     0.,0.,0.,0.,0.,      0.,0.,0.,0.,(10.1907),        0.,0.});
+       fertilizers.add(new double[]{0.,13.5,0.,0.,0.,      0.,0.,0.,0.,0.,     0.,0.,0.,0.,0.,      0.,0.,0.,0.,(10.1907),        0.});
        fertNames.add("Селитра калиевая Мегастрой");
-       fertilizers.add(new double[]{13.5,0.,0.03,0.,0.15,   0.09,0.16,0.04,0.,0.,     0.,0.,0.,0.,0.002,    0.,0.,0.,(31.208),0.,      0.,0.});
+       fertilizers.add(new double[]{13.5,0.,0.03,0.,0.15,   0.09,0.16,0.04,0.,0.,     0.,0.,0.,0.,0.002,    0.,0.,0.,(31.208),0.,      0.});
        fertNames.add("Селитра магниевая");
-       fertilizers.add(new double[]{11.1, 0.,0.,0.715,0.,     0.,0.,0.,0.,0.,      0.,0.,0.,0.,0.,     0.,0.,0.,0.,(9.3465),       0.,0.});
+       fertilizers.add(new double[]{11.1, 0.,0.,0.715,0.,     0.,0.,0.,0.,0.,      0.,0.,0.,0.,0.,     0.,0.,0.,0.,(9.3465),       0.});
 
        fertNames.add("Сульфат калия Буйск");
-       fertilizers.add(new double[]{0.,17.,0.,0.,0.,     0.,0.,0.,0.,0.,      0.,0.,0.,0.,0.,     0.,0.,0.,41.5,0.,     0.,0.});
+       fertilizers.add(new double[]{0.,17.,0.,0.,0.,     0.,0.,0.,0.,0.,      0.,0.,0.,0.,0.,     0.,0.,0.,41.5,0.,     0.});
        fertNames.add("Селитра кальциевая Fertika");
-       fertilizers.add(new double[]{15.5,0.,0.,0.,0.,     0.,0.,0.,0.,0.,     0.,0.,0.,0.,0.,     0.,0.,0.,0.,0.,        0.,0.});
+       fertilizers.add(new double[]{15.5,0.,0.,0.,0.,     0.,0.,0.,0.,0.,     0.,0.,0.,0.,0.,     0.,0.,0.,0.,0.,        0.});
        fertNames.add("Хелат железа");
-       fertilizers.add(new double[]{0.,0.,0.,0.,0.,     11.7,0.,0.,0.,0.,      0.,0.,0.,0.,0.,     0.,0.,0.,0.,0.,        0.,0.});
+       fertilizers.add(new double[]{0.,0.,0.,0.,0.,     11.7,0.,0.,0.,0.,      0.,0.,0.,0.,0.,     0.,0.,0.,0.,0.,        0.});
        fertNames.add("Хелат цинка");
-       fertilizers.add(new double[]{0.,0.,0.,0.,0.,     0.,0.,15.,0.,0.,      0.,0.,0.,0.,0.,     0.,0.,0.,0.,0.,        0.,0.});
+       fertilizers.add(new double[]{0.,0.,0.,0.,0.,     0.,0.,15.,0.,0.,      0.,0.,0.,0.,0.,     0.,0.,0.,0.,0.,        0.});
        fertNames.add("Акварин плодово-ягодный");
-       fertilizers.add(new double[]{12.,0.7,0.,0.,0.01,     0.054,0.042,0.014,0.,0.,      0.,0.,0.,0.,0.,     0.,0.,(5.232),(29.05),(0.603),       0.,0.});
+       fertilizers.add(new double[]{12.,0.7,0.,0.,0.01,     0.054,0.042,0.014,0.,0.,      0.,0.,0.,0.,0.,     0.,0.,(5.232),(29.05),(0.603),       0.});
 
        fertNames.add("УНИФЛОР-МИКРО");
-       fertilizers.add(new double[]{0.,1.98,0.12,0.,0.032,     0.32,0.16,0.036,0.0024,0.008,      6e-4,0.0048,0.002,0.001,0.0102,     8e-4,0.0024,0.,0.,1.5,       0.48,0.});
+       fertilizers.add(new double[]{0.,1.98,0.12,0.,0.032,     0.32,0.16,0.036,0.0024,0.008,      6e-4,0.0048,0.002,0.001,0.0102,     8e-4,0.0024,0.,0.,1.5,       0.48});
        fertNames.add("Борофоска");
-       fertilizers.add(new double[]{0.,0.,0.25,(14.3),0.,     0.,0.,0.,0.,0.,      0.,0.,0.,0.,0.,     0.,0.,(4.36),(13.28),(1.206),             0.,0.});
+       fertilizers.add(new double[]{0.,0.,0.25,(14.3),0.,     0.,0.,0.,0.,0.,      0.,0.,0.,0.,0.,     0.,0.,(4.36),(13.28),(1.206),             0.});
        fertNames.add("Селитра калиевая Буйск");
-       fertilizers.add(new double[]{13.6,0.,0.,0.,0.,     0.,0.,0.,0.,0.,      0.,0.,0.,0.,0.,     0.,0.,0.,(38.18),0.,           0.,0.});
+       fertilizers.add(new double[]{13.6,0.,0.,0.,0.,     0.,0.,0.,0.,0.,      0.,0.,0.,0.,0.,     0.,0.,0.,(38.18),0.,           0.});
        fertNames.add("Артем Аммиачка мткро");
-       fertilizers.add(new double[]{33.,0.,0.03,0.,0.15,     0.09,0.16,0.04,0.,0.,      0.,0.,0.,0.,0.002,     0.,0.,0.,0.,0.,           0.,0.});
+       fertilizers.add(new double[]{33.,0.,0.03,0.,0.15,     0.09,0.16,0.04,0.,0.,      0.,0.,0.,0.,0.002,     0.,0.,0.,0.,0.,           0.});
        fertNames.add("Артем КалиСелитБуйсМик");
-       fertilizers.add(new double[]{13.5,0.,0.003,0.013,0.003,     0.019,0.013,0.003,0.,0.,      0.,0.,0.,0.,7e-4,     0.,0.,0.,45.8,0.,          0.,0.});
+       fertilizers.add(new double[]{13.5,0.,0.003,0.013,0.003,     0.019,0.013,0.003,0.,0.,      0.,0.,0.,0.,7e-4,     0.,0.,0.,45.8,0.,          0.});
 
        fertNames.add("Артем Аквамикс Хелат");
-       fertilizers.add(new double[]{0.,0.,0.79,3.9,0.8,     5.8,3.9,0.8,0.,0.,      0.,0.,0.,0.,0.19,     0.,0.,0.,0.,0.,           0.,0.});
+       fertilizers.add(new double[]{0.,0.,0.79,3.9,0.8,     5.8,3.9,0.8,0.,0.,      0.,0.,0.,0.,0.19,     0.,0.,0.,0.,0.,           0.});
        fertNames.add("Артем магний сернокислый");
-       fertilizers.add(new double[]{0.,12.8,0.,0.,0.,     0.,0.,0.,0.,0.,      0.,0.,0.,0.,0.,     0.,0.,0.,0.,(9.7083),            0.,0.});
+       fertilizers.add(new double[]{0.,12.8,0.,0.,0.,     0.,0.,0.,0.,0.,      0.,0.,0.,0.,0.,     0.,0.,0.,0.,(9.7083),            0.});
 
        targetSumML = Arrays.stream(target).sum();
-       target[target.length - 1] = 1000 - targetSumML;      // балласт и вода
+//       target[target.length - 1] = 1000 - targetSumML;      // балласт и вода
        arrNormalize(target);
        botSize = fertilizers.size();
 
        for(var f: fertilizers) {
-           f[f.length - 1] = 100 - Arrays.stream(f).sum();          // балласт
+//           f[f.length - 1] = 100 - Arrays.stream(f).sum();          // балласт
            arrNormalize(f);
        }
     }
@@ -237,7 +236,7 @@ public class Data {
     static void printResults(double[] errors, double[][] popul) {
         System.out.println();
 
-        var k = target0ML / target[0];
+        var k = target0ML / target[0];                                      // коэффициент для перевода процентов в мл.
         var minErr = Arrays.stream(errors).min().getAsDouble();
         double[] winner = new double[botSize];
 
@@ -267,21 +266,10 @@ public class Data {
         }
 
         System.out.println();
-        double sum = 0;
+
         for (int i = 0; i < fertNames.size(); i++) {
             System.out.printf("%-30s ", fertNames.get(i) + ":");
-            System.out.printf("%10.2f мг/л \n", (winner[i] * k));
-            sum += winner[i] * k;
+            System.out.printf("%10.2f мг/л \n", (winner[i] * k), "%");
         }
-        System.out.println();
-        System.out.println(sum + " (" + targetSumML + ")");
-
-        sum = 0;
-        double weight = 100.;
-        for (int i = 0; i < fertNames.size(); i++) {
-
-        }
-
     }
-
 }
