@@ -10,9 +10,10 @@ public class Main {
         var winSize = 45;
         var nEpochs = 100;
         var targetSize = Data.target.length;
-        var popul = new double[populSize][targetSize];
+        var botSize = Data.fertilizers.size();
+        var popul = new double[populSize][botSize];
         var errors = new double[populSize];
-        var winners = new double[winSize][targetSize];
+        var winners = new double[winSize][botSize];
         double[] result = new double[targetSize];
 
         for (int i = 0; i < populSize; i++) {
@@ -21,7 +22,7 @@ public class Main {
 
         for (int ep = 0; ep < nEpochs; ep++) {
             errors = new double[populSize];
-            winners = new double[winSize][targetSize];
+            winners = new double[winSize][botSize];
 
             for (int i = 0; i < populSize; i++) {
                 errors[i] = Data.getErr(popul[i]);
