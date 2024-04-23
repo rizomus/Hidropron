@@ -110,19 +110,19 @@ public class Data {
 
     static double getErr(double[] bot) throws IOException {
 
-        var solution = Stream.generate(()->0.).limit(target.length).mapToDouble(Double::doubleValue).toArray();
+        var solution = Stream.generate(()->0.).limit(target.length).mapToDouble(Double::doubleValue).toArray();         // целевой раствор, инициализируется массивом нулей
         var relevantTarget = arrNotZero(target);
         var relevantSolution = arrNotZero(solution, target);
 
         for (int i = 0; i < fertilizers.size(); i++) {
-                solution = arrSum(solution, arrMultiply(fertilizers.get(i), bot[i]));
+                solution = arrSum(solution, arrMultiply(fertilizers.get(i), bot[i]));           // Каждое удобрение (fertilizers.get(i)) умножается на свой коэффициент (bot[i])
         }
-        arrNormalize(solution);
-        relevantSolution = arrNotZero(solution, target);
-        return MSPE(relevantTarget, relevantSolution);
+        arrNormalize(solution);                                 // нормализация к 1
+        relevantSolution = arrNotZero(solution, target);        // берём в расчёт только элементы присутствующие в целевом растворе
+        return MSPE(relevantTarget, relevantSolution);          // считаем ошибку
     }
 
-    static double[] breeding(double[] bot1, double[] bot2) {
+    static double[] breeding(double[] bot1, double[] bot2) {        // скрещивание
 
         assert (bot1.length == bot2.length);
 
@@ -135,22 +135,22 @@ public class Data {
         return arrNormalize(child);
     }
 
-    static double[] newRandomBot() {
+    static double[] newRandomBot() {                // создаёт нового рандомного бота
         Random random = new Random();
         var bot = random.doubles(botSize).toArray();
-        return arrNormalize(bot);
+        return arrNormalize(bot);                               // нормализация к 1
     }
 
-    static double[] arrMultiply (double[] arr1, double[] arr2) {
-        assert(arr1.length == arr2.length);
-        double[] result = new double[arr1.length];
-        for (int i = 0; i < arr1.length; i++) {
-            result[i] = arr1[i] * arr2[i];
-        }
-        return result;
-    }
+//    static double[] arrMultiply (double[] arr1, double[] arr2) {        // поэлементно премножает 2 массива (не используется)
+//        assert(arr1.length == arr2.length);
+//        double[] result = new double[arr1.length];
+//        for (int i = 0; i < arr1.length; i++) {
+//            result[i] = arr1[i] * arr2[i];
+//        }
+//        return result;
+//    }
 
-    static double[] arrMultiply (double[] arr1, double k) {
+    static double[] arrMultiply (double[] arr1, double k) {             // поэлементно домнажает элементы массива на коэффициент
         double[] result = new double[arr1.length];
         for (int i = 0; i < arr1.length; i++) {
             result[i] = arr1[i] * k;
@@ -158,7 +158,7 @@ public class Data {
         return result;
     }
 
-    static double[] arrSum (double[] arr1, double[] arr2) {
+    static double[] arrSum (double[] arr1, double[] arr2) {         // поэлементно суммирует 2 массива
         assert(arr1.length == arr2.length);
         double[] result = new double[arr1.length];
         for (int i = 0; i < arr1.length; i++) {
@@ -167,17 +167,17 @@ public class Data {
         return result;
     }
 
-    static double MAPE (double[] target, double[] computed) {        // mean absolute percentage error = mean(abs((y_true - y_pred) / y_true))
-        assert(target.length == computed.length);
-
-        double[] result = new double[target.length];
-        double sum = 0;
-        for (int i = 0; i < target.length; i++) {
-            result[i] = Math.abs(target[i] - computed[i]) / target[i];
-            sum += result[i];
-        }
-        return sum / target.length;
-    }
+//    static double MAPE (double[] target, double[] computed) {        // mean absolute percentage error = mean(abs((y_true - y_pred) / y_true))
+//        assert(target.length == computed.length);
+//
+//        double[] result = new double[target.length];
+//        double sum = 0;
+//        for (int i = 0; i < target.length; i++) {
+//            result[i] = Math.abs(target[i] - computed[i]) / target[i];
+//            sum += result[i];
+//        }
+//        return sum / target.length;
+//    }
 
     static double MSPE (double[] target, double[] computed) {        // mean square percentage error = mean((y_true - y_pred)^2 / y_true)
         assert(target.length == computed.length);
@@ -191,7 +191,7 @@ public class Data {
         return sum / target.length;
     }
 
-    static double[] arrNormalize(double[] arr) {
+    static double[] arrNormalize(double[] arr) {            // нормализация массива, так чтобы сумма элементов была = 1
         var sum = Arrays.stream(arr).sum();
         for (int i = 0; i < arr.length; i++) {
             arr[i] = arr[i] / sum;
@@ -199,7 +199,7 @@ public class Data {
         return arr;
     }
 
-    static double[] arrNotZero(double[] arr) {
+    static double[] arrNotZero(double[] arr) {                  // создаёт массив из не нулевых элементов входящего массива
         double[] positives = new double[arr.length];
         int j = 0;
         for (int i = 0; i < arr.length; i++) {
@@ -211,7 +211,7 @@ public class Data {
         return Arrays.copyOf(positives, j);
     }
 
-    static double[] arrNotZero(double[] arrTarget, double[] arrTempl) {
+    static double[] arrNotZero(double[] arrTarget, double[] arrTempl) {         // создаёт массив из элементов arrTarget, индексы которого соответствуют индексам ненулевых эелементов arrTempl
         assert(arrTarget.length == arrTempl.length);
         double[] positives = new double[arrTarget.length];
         int j = 0;
@@ -224,7 +224,7 @@ public class Data {
         return Arrays.copyOf(positives, j);
     }
 
-    static void printArr(double[] arr, String prefix) {
+    static void printArr(double[] arr, String prefix) {     // вывод массива на экран
         System.out.print(prefix + "[");
         for (int i = 0; i < arr.length; i++) {
             System.out.print(arr[i] + ", ");
@@ -233,7 +233,7 @@ public class Data {
     }
 
 
-    static void printResults(double[] errors, double[][] popul) {
+    static void printResults(double[] errors, double[][] popul) {           // Отображение результатов
         System.out.println();
 
         var k = target0ML / target[0];                                      // коэффициент для перевода процентов в мл.
@@ -246,10 +246,10 @@ public class Data {
             }
         }
 
-        var solution = Stream.generate(()->0.).limit(target.length).mapToDouble(Double::doubleValue).toArray();
+        var solution = Stream.generate(()->0.).limit(target.length).mapToDouble(Double::doubleValue).toArray();     // получившийся раствор
 
         for (int i = 0; i < fertilizers.size(); i++) {
-            solution = arrSum(solution, arrMultiply(fertilizers.get(i), winner[i]));
+            solution = arrSum(solution, arrMultiply(fertilizers.get(i), winner[i]));        // добавляем все удобрения со своими коэффициентами
         }
         arrNormalize(solution);
 

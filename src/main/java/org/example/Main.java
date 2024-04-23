@@ -14,7 +14,6 @@ public class Main {
         var popul = new double[populSize][botSize];
         var errors = new double[populSize];
         var winners = new double[winSize][botSize];
-        double[] result = new double[targetSize];
 
         for (int i = 0; i < populSize; i++) {
             popul[i] = Data.newRandomBot();
@@ -26,17 +25,14 @@ public class Main {
 
             for (int i = 0; i < populSize; i++) {
                 errors[i] = Data.getErr(popul[i]);
-//                System.out.println("err[i] = " + errors[i]);
             }
             var sortedErrors = Arrays.stream(errors).sorted().toArray();
             var thresold = sortedErrors[winSize - 1];
-//            System.out.println("threshold = " + thresold);
 
             int j = 0;
             for (int i = 0; i < populSize; i++) {
                 if (errors[i] <= thresold) {
-                    winners[j] = popul[i];
-//                    Data.printArr(winners[j], "   winner: ");
+                    winners[j] = popul[i];          // выжили только лучшие
                     j++;
                 }
             }
@@ -45,15 +41,13 @@ public class Main {
             var newPopul = Arrays.copyOf(winners, populSize);
 
             j = winSize;
-            for (int i = 0; i < winSize; i++) {
-                for (int k = i + 1; k < winSize; k++) {
-                    newPopul[j] = Data.breeding(winners[i], winners[k]);
+            for (int i = 0; i < winSize; i++) {                                 // победители
+                for (int k = i + 1; k < winSize; k++) {                         // скрещиваются каждый с каждым
+                    newPopul[j] = Data.breeding(winners[i], winners[k]);        // и добавляются в новую популяцию
                     j++;
                 }
             }
             popul = newPopul;
-//            Data.printArr(popul[0], "   popul[0]: ");
-//            Data.printArr(popul[populSize - 1], "   popul[-1]: ");
             System.out.println("Epoch " + ep + ": error = " + sortedErrors[0]);
         }
         Data.printResults(errors, popul);
