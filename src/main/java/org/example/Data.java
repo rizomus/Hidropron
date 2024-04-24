@@ -13,15 +13,15 @@ public class Data {
 
    static HashMap<Integer, String> elements = new HashMap<>();
    static HashMap<String, Double> target_elements = new HashMap<>();
-   static List<double[]> fertilizers = new ArrayList<double[]>();
+   static List<double[]> fertilizers = new ArrayList<double[]>();               // удобрения
 
    static int botSize;
-   static double targetSumML;
+   static double targetSumML;           // суммарное содержание компонентов в целевом растворе в мл: = target.sum()
 
     static List<String> fertNames = new ArrayList<>();
    static double[] target = new double[]{200.,0.,0.35,200.,0.06,     1.2,0.55,0.35,0.,0.,      0.,0.,0.,0.,0.06,    0.,0.,40.,310.,55.,         0.};
 
-   static double target0ML = target[0];
+   static double target0ML = target[0];             // для пересчёта % в мл
    static Random random = new Random();
 
    static {
@@ -98,12 +98,10 @@ public class Data {
        fertilizers.add(new double[]{0.,12.8,0.,0.,0.,     0.,0.,0.,0.,0.,      0.,0.,0.,0.,0.,     0.,0.,0.,0.,(9.7083),            0.});
 
        targetSumML = Arrays.stream(target).sum();
-       target[target.length - 1] = 1000 - targetSumML;      // балласт и вода
        arrNormalize(target);
        botSize = fertilizers.size();
 
        for(var f: fertilizers) {
-           f[f.length - 1] = 100 - Arrays.stream(f).sum();          // балласт
            arrNormalize(f);
        }
     }
