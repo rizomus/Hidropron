@@ -9,7 +9,7 @@ public class Main {
         var populSize = 1035;
         var winSize = 45;
         var nEpochs = 100;
-        var botSize = Data.fertilizers.size();
+        var botSize = Data.botSize;
         var popul = new double[populSize][botSize];
         var errors = new double[populSize];
         var winners = new double[winSize][botSize];
@@ -26,22 +26,22 @@ public class Main {
                 errors[i] = Data.getErr(popul[i]);
             }
             var sortedErrors = Arrays.stream(errors).sorted().toArray();
-            var thresold = sortedErrors[winSize - 1];
+            var thresold = sortedErrors[winSize - 1];                           // порог ошибки для выживших
 
             int j = 0;
             for (int i = 0; i < populSize; i++) {
-                if (errors[i] <= thresold) {
-                    winners[j] = popul[i];          // выжили только лучшие
+                if (errors[i] <= thresold) {          // нам нужны только истинные арийцы
+                    winners[j] = popul[i];
                     j++;
                 }
             }
             assert(j == winSize);
 
-            var newPopul = Arrays.copyOf(winners, populSize);
+            var newPopul = Arrays.copyOf(winners, populSize);         // выжившие - основа новой популяции
 
             j = winSize;
             for (int i = 0; i < winSize; i++) {                                 // победители
-                for (int k = i + 1; k < winSize; k++) {                         // скрещиваются каждый с каждым
+                for (int k = i + 1; k < winSize; k++) {                         // скрещиваются каждый с каждым (можно выбрать другую стратегию)
                     newPopul[j] = Data.breeding(winners[i], winners[k]);        // и добавляются в новую популяцию
                     j++;
                 }

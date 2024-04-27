@@ -14,11 +14,9 @@ public class Data {
    static HashMap<Integer, String> elements = new HashMap<>();
    static HashMap<String, Double> target_elements = new HashMap<>();
    static List<double[]> fertilizers = new ArrayList<double[]>();               // удобрения
-
    static int botSize;
    static double targetSumML;           // суммарное содержание компонентов в целевом растворе в мл: = target.sum()
-
-    static List<String> fertNames = new ArrayList<>();
+   static List<String> fertNames = new ArrayList<>();
    static double[] target = new double[]{200.,0.,0.35,200.,0.06,     1.2,0.55,0.35,0.,0.,      0.,0.,0.,0.,0.06,    0.,0.,40.,310.,55.,         0.};
 
    static double target0ML = target[0];             // для пересчёта % в мл
@@ -122,11 +120,9 @@ public class Data {
 
     static double[] breeding(double[] bot1, double[] bot2) {        // скрещивание
 
-        assert (bot1.length == bot2.length);
+        var child = new double[botSize];
 
-        var child = new double[bot1.length];
-
-        for (int i = 0; i < bot1.length; i++) {
+        for (int i = 0; i < botSize; i++) {
             if (random.nextBoolean()) child[i] = bot1[i];
             else child[i] = bot2[i];
         }
@@ -139,10 +135,10 @@ public class Data {
         return arrNormalize(bot);                               // нормализация к 1
     }
 
-    static double[] arrMultiply (double[] arr1, double k) {             // поэлементно домнажает элементы массива на коэффициент
-        double[] result = new double[arr1.length];
-        for (int i = 0; i < arr1.length; i++) {
-            result[i] = arr1[i] * k;
+    static double[] arrMultiply (double[] arr, double k) {             // поэлементно домнажает элементы массива на коэффициент
+        double[] result = new double[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            result[i] = arr[i] * k;
         }
         return result;
     }
@@ -223,7 +219,7 @@ public class Data {
             }
         }
 
-        var solution = Stream.generate(()->0.).limit(target.length).mapToDouble(Double::doubleValue).toArray();     // получившийся раствор
+        var solution = Stream.generate(()->0.).limit(target.length).mapToDouble(Double::doubleValue).toArray();     // пустой раствор
 
         for (int i = 0; i < fertilizers.size(); i++) {
             solution = arrSum(solution, arrMultiply(fertilizers.get(i), winner[i]));        // добавляем все удобрения со своими коэффициентами
